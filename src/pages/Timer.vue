@@ -1,18 +1,16 @@
 <template>
   <q-page class="flex flex-center">
-    <q-toolbar class="bg-blue text-white shadow-2 rounded-borders flex-center">
-      <div class="text-h6">Timer</div>
-    </q-toolbar>
     <q-card class="my-card">
+      <q-toolbar class="bg-blue text-white shadow-2 rounded-borders flex-center">
+        <div class="text-h6">Timer</div>
+      </q-toolbar>
       <q-card-section>
         <div class="text-h3">{{timer}}</div>
       </q-card-section>
 
-      <q-separator />
-
       <q-card-actions vertical>
-        <q-btn flat class="bg-green">Start</q-btn>
-        <q-btn flat class="bg-red">Stop</q-btn>
+        <q-btn flat class="bg-green" @click="countdown">Start</q-btn>
+        <q-btn flat class="bg-red" @click="stop">Stop</q-btn>
       </q-card-actions>
     </q-card>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -31,7 +29,27 @@ export default {
   name: 'Timer',
   data: () => {
     return {
-      timer:'02:00'
+      timer:'0:00',
+      counter: {}
+    }
+  },
+  methods: {
+    countdown: function() {
+      this.timer = '1:00';
+      let timeTo = new Date();
+      timeTo.setMinutes(timeTo.getMinutes() + 1);
+
+      this.counter = setInterval(() => {
+        let now = new Date();
+        let distance = timeTo.getTime() - now.getTime();
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        this.timer = `${minutes}:${seconds}`;
+      }, 1000)
+    },
+    stop: function() {
+      this.timer = '0:00';
+      clearInterval(this.counter);
     }
   }
 }

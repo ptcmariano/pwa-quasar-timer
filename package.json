@@ -6,6 +6,7 @@
   "author": "Paulo Tiago <paulotiagocm@hotmail.com>",
   "private": true,
   "scripts": {
+    "qrun": "quasar dev",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
