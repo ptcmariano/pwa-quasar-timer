@@ -1,18 +1,27 @@
 <template>
   <q-page class="flex flex-center">
-    <q-card class="my-card">
-      <q-toolbar class="bg-blue text-white shadow-2 rounded-borders flex-center">
-        <div class="text-h6">Timer</div>
-      </q-toolbar>
-      <q-card-section>
-        <div class="text-h3">{{timer}}</div>
-      </q-card-section>
+    <div class="panel">
 
-      <q-card-actions vertical>
-        <q-btn flat class="bg-green" @click="countdown">Start</q-btn>
-        <q-btn flat class="bg-red" @click="stop">Stop</q-btn>
-      </q-card-actions>
-    </q-card>
+      <q-card class="my-card">
+        <q-toolbar class="bg-blue text-white shadow-2 rounded-borders flex-center">
+          <div class="text-h6">Timer</div>
+        </q-toolbar>
+        <q-card-section>
+          <div class="text-h3">{{timer}}</div>
+        </q-card-section>
+
+        <q-card-actions vertical>
+          <q-btn flat class="bg-green" @click="countdown">Start</q-btn>
+          <q-btn flat class="bg-red" @click="stop">Stop</q-btn>
+        </q-card-actions>
+      </q-card>
+
+      <div class="flex justify-between">
+        <CardNumberAndTitle title="Cicles" :number="8" />
+        <CardNumberAndTitle title="Tabatas" :number="3" />
+      </div>
+    </div>
+
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
         color="secondary"
@@ -25,7 +34,9 @@
 </template>
 
 <script>
+import CardNumberAndTitle from 'components/CardNumberAndTitle.vue'
 export default {
+  components: { CardNumberAndTitle },
   name: 'Timer',
   data: () => {
     return {
@@ -54,3 +65,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.panel {
+  min-width: 850px;
+}
+</style>
