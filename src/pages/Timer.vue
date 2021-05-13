@@ -12,6 +12,20 @@
         <q-btn flat class="bg-green" @click="countdown">Start</q-btn>
         <q-btn flat class="bg-red" @click="stop">Stop</q-btn>
       </q-card-actions>
+      <q-separator />
+      <q-input filled v-model="timer" mask="time" :rules="['time']">
+        <template v-slot:append>
+          <q-icon name="access_time" class="cursor-pointer">
+            <q-popup-proxy transition-show="scale" transition-hide="scale">
+              <q-time v-model="timer">
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat />
+                </div>
+              </q-time>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
     </q-card>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
@@ -35,9 +49,13 @@ export default {
   },
   methods: {
     countdown: function() {
-      this.timer = '1:00';
+      let arrTimer = this.timer.split(':');
+      clearInterval(this.counter);
       let timeTo = new Date();
-      timeTo.setMinutes(timeTo.getMinutes() + 1);
+      const plusMinutes = parseInt(arrTimer[0]);
+      const plusSeconds = parseInt(arrTimer[1]);
+      timeTo.setMinutes(timeTo.getMinutes() + plusMinutes);
+      timeTo.setSeconds(timeTo.getSeconds() + plusSeconds);
 
       this.counter = setInterval(() => {
         let now = new Date();
