@@ -9,6 +9,15 @@
 			],
 			"label": "npm: lint",
 			"detail": "eslint --ext .js,.vue ./"
+		},
+		{
+			"type": "npm",
+			"script": "qrun",
+			"problemMatcher": [
+				"$eslint-compact"
+			],
+			"label": "npm: qrun",
+			"detail": "quasar dev"
 		}
 	]
 }

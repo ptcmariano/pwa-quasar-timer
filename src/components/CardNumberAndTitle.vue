@@ -1,6 +1,6 @@
 <template>
   <q-card class="my-card text-center">
-    <q-card-section tag="h1" class="text-bold q-my-none">
+    <q-card-section tag="h3" class="text-bold q-my-none">
       {{ number }}
     </q-card-section>
 

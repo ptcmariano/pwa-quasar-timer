@@ -17,9 +17,9 @@
       </q-card>
 
       <div class="flex justify-between">
-        <CardNumberAndTitle title="Sets" :number="8" />
-        <CardNumberAndTitle title="Work" :number="timer" />
-        <CardNumberAndTitle title="Rest" :number="3" />
+        <CardNumberAndTitle title="Sets" :number="sets" />
+        <CardNumberAndTitle title="Work" :number="work" />
+        <CardNumberAndTitle title="Rest" :number="rest" />
       </div>
 
       <q-separator />
@@ -40,19 +40,23 @@
 
 <script>
 import CardNumberAndTitle from 'components/CardNumberAndTitle.vue'
+
 export default {
   components: { CardNumberAndTitle },
   name: 'Timer',
   data: () => {
     return {
-      timer:'00:30',
+      sets: 2,
+      timer:'0:10',
+      work:'0:10',
+      rest:'0:10',
       counter: {}
     }
   },
   methods: {
     countdown: function() {
-      let arrTimer = this.timer.split(':');
       clearInterval(this.counter);
+      let arrTimer = this.timer.split(':');
       let timeTo = new Date();
       const plusMinutes = parseInt(arrTimer[0]);
       const plusSeconds = parseInt(arrTimer[1]);
@@ -62,13 +66,29 @@ export default {
       this.counter = setInterval(() => {
         let now = new Date();
         let distance = timeTo.getTime() - now.getTime();
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const {minutes, seconds} = this.calcDistanceTime(distance);
         this.timer = `${minutes}:${seconds}`;
-      }, 1000)
+        this.setStateOverAll(minutes+seconds);
+      }, 990)
+    },
+    calcDistanceTime: function(distance) {
+      return {
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000)
+      }
+    },
+    setStateOverAll: function(lastTime) {
+      if (lastTime <= 0) {
+        this.stop();
+        if (this.sets >= 1) {
+          this.sets--;
+          this.timer = this.rest;
+          this.countdown();
+        }
+      }
     },
     stop: function() {
-      this.timer = '00:00';
+      this.timer = '0:00';
       clearInterval(this.counter);
     }
   }
