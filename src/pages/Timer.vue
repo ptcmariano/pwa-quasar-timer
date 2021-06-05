@@ -1,32 +1,32 @@
 <template>
   <q-page class="flex flex-center">
-    <q-card class="my-card">
-      <q-toolbar class="bg-blue text-white shadow-2 rounded-borders flex-center">
-        <div class="text-h6">Timer</div>
-      </q-toolbar>
-      <q-card-section>
-        <div class="text-h3">{{timer}}</div>
-      </q-card-section>
+    <div class="panel">
 
-      <q-card-actions vertical>
-        <q-btn flat class="bg-green" @click="countdown">Start</q-btn>
-        <q-btn flat class="bg-red" @click="stop">Stop</q-btn>
-      </q-card-actions>
+      <q-card class="my-card">
+        <q-toolbar class="bg-blue text-white shadow-2 rounded-borders flex-center">
+          <div class="text-h6">Timer</div>
+        </q-toolbar>
+        <q-card-section class="flex justify-between">
+          <div class="text-h3">{{timer}}</div>
+        </q-card-section>
+
+        <q-card-actions vertical>
+          <q-btn flat class="bg-green" @click="countdown">Start</q-btn>
+          <q-btn flat class="bg-red" @click="stop">Stop</q-btn>
+        </q-card-actions>
+      </q-card>
+
+      <div class="flex justify-between">
+        <CardNumberAndTitle title="Sets" :number="8" />
+        <CardNumberAndTitle title="Work" :number="timer" />
+        <CardNumberAndTitle title="Rest" :number="3" />
+      </div>
+
       <q-separator />
-      <q-input filled v-model="timer" mask="time" :rules="['time']">
-        <template v-slot:append>
-          <q-icon name="access_time" class="cursor-pointer">
-            <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="timer">
-                <div class="row items-center justify-end">
-                  <q-btn v-close-popup label="Close" color="primary" flat />
-                </div>
-              </q-time>
-            </q-popup-proxy>
-          </q-icon>
-        </template>
+      <q-input filled v-model="timer" type="time" hint="Native time">
       </q-input>
-    </q-card>
+    </div>
+
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
         color="secondary"
@@ -39,11 +39,13 @@
 </template>
 
 <script>
+import CardNumberAndTitle from 'components/CardNumberAndTitle.vue'
 export default {
+  components: { CardNumberAndTitle },
   name: 'Timer',
   data: () => {
     return {
-      timer:'0:00',
+      timer:'00:30',
       counter: {}
     }
   },
@@ -66,9 +68,15 @@ export default {
       }, 1000)
     },
     stop: function() {
-      this.timer = '0:00';
+      this.timer = '00:00';
       clearInterval(this.counter);
     }
   }
 }
 </script>
+
+<style>
+.panel {
+  min-width: 850px;
+}
+</style>
