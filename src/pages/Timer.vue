@@ -7,13 +7,8 @@
           <div class="text-h6">Timer</div>
         </q-toolbar>
         <q-card-section class="flex justify-between">
-          <div class="text-h3">{{timer}}</div>
+          <div class="text-h3">Run {{run}} {{timer}}</div>
         </q-card-section>
-
-        <q-card-actions vertical>
-          <q-btn flat class="bg-green" @click="countdown">Start</q-btn>
-          <q-btn flat class="bg-red" @click="stop">Stop</q-btn>
-        </q-card-actions>
       </q-card>
 
       <div class="flex justify-between">
@@ -22,9 +17,10 @@
         <CardNumberAndTitle title="Rest" :number="rest" />
       </div>
 
-      <q-separator />
-      <q-input filled v-model="timer" type="time" hint="Native time">
-      </q-input>
+      <q-card-actions vertical>
+        <q-btn flat class="bg-green" @click="countdown">Start</q-btn>
+        <q-btn flat class="bg-red" @click="stop">Stop</q-btn>
+      </q-card-actions>
     </div>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -46,17 +42,21 @@ export default {
   name: 'Timer',
   data: () => {
     return {
-      sets: 2,
-      timer:'0:10',
-      work:'0:10',
-      rest:'0:10',
+      sets: 6,
+      timer:'0:05',
+      work: 20,
+      rest: 10,
+      run: 'start',
       counter: {}
     }
   },
   methods: {
     countdown: function() {
       clearInterval(this.counter);
-      let arrTimer = this.timer.split(':');
+      this.startTimer(this.timer);
+    },
+    startTimer: function(timerCount) {
+      let arrTimer = timerCount.split(':');
       let timeTo = new Date();
       const plusMinutes = parseInt(arrTimer[0]);
       const plusSeconds = parseInt(arrTimer[1]);
@@ -69,7 +69,7 @@ export default {
         const {minutes, seconds} = this.calcDistanceTime(distance);
         this.timer = `${minutes}:${seconds}`;
         this.setStateOverAll(minutes+seconds);
-      }, 990)
+      }, 992);
     },
     calcDistanceTime: function(distance) {
       return {
@@ -82,8 +82,15 @@ export default {
         this.stop();
         if (this.sets >= 1) {
           this.sets--;
-          this.timer = this.rest;
-          this.countdown();
+          if (this.run == 'work') {
+            this.run = 'rest';
+            this.startTimer(`0:${this.rest}`);
+          } else {
+            this.run = 'work';
+            this.startTimer(`0:${this.work}`);
+          }
+        } else {
+          this.run = 'finished';
         }
       }
     },
@@ -96,7 +103,9 @@ export default {
 </script>
 
 <style>
+/*
 .panel {
   min-width: 850px;
 }
+*/
 </style>
