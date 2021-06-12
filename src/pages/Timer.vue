@@ -2,20 +2,20 @@
   <q-page class="flex flex-center">
     <div class="panel">
 
-      <q-card class="my-card">
-        <q-toolbar class="bg-blue text-white shadow-2 rounded-borders flex-center">
-          <div class="text-h6">Timer</div>
-        </q-toolbar>
-        <q-card-section class="flex justify-between">
-          <div class="text-h3">Run {{run}} {{timer}}</div>
-        </q-card-section>
-      </q-card>
-
       <div class="flex justify-between">
+        <q-toolbar class="bg-blue text-white shadow-2 rounded-borders flex-center">
+          <div class="text-h6">Ready?</div>
+        </q-toolbar>
         <CardNumberAndTitle title="Sets" :number="sets" />
         <CardNumberAndTitle title="Work" :number="work" />
         <CardNumberAndTitle title="Rest" :number="rest" />
       </div>
+
+      <q-card class="my-card">
+        <q-card-section class="flex justify-between">
+          <div class="text-h3">Run {{run}} {{timer}}</div>
+        </q-card-section>
+      </q-card>
 
       <q-card-actions vertical>
         <q-btn flat class="bg-green" @click="countdown">Start</q-btn>
@@ -81,17 +81,20 @@ export default {
       if (lastTime <= 0) {
         this.stop();
         if (this.sets >= 1) {
-          this.sets--;
-          if (this.run == 'work') {
-            this.run = 'rest';
-            this.startTimer(`0:${this.rest}`);
-          } else {
-            this.run = 'work';
-            this.startTimer(`0:${this.work}`);
-          }
+          this.changeRun();
         } else {
           this.run = 'finished';
         }
+      }
+    },
+    changeRun: function() {
+      if (this.run == 'work') {
+        this.run = 'rest';
+        this.startTimer(`0:${this.rest}`);
+      } else {
+        this.sets--;
+        this.run = 'work';
+        this.startTimer(`0:${this.work}`);
       }
     },
     stop: function() {
