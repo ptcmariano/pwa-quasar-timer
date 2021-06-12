@@ -19,7 +19,7 @@
 
       <q-card-actions vertical>
         <q-btn flat class="bg-green" @click="countdown">Start</q-btn>
-        <q-btn flat class="bg-red" @click="stop">Stop</q-btn>
+        <q-btn flat class="bg-red" @click="reset">Reset</q-btn>
       </q-card-actions>
     </div>
 
@@ -79,7 +79,8 @@ export default {
     },
     setStateOverAll: function(lastTime) {
       if (lastTime <= 0) {
-        this.stop();
+        this.timer = '0:00';
+        clearInterval(this.counter);
         if (this.sets >= 1) {
           this.changeRun();
         } else {
@@ -97,8 +98,10 @@ export default {
         this.startTimer(`0:${this.work}`);
       }
     },
-    stop: function() {
-      this.timer = '0:00';
+    reset: function() {
+      this.sets = 6;
+      this.run = 'start';
+      this.timer = '0:05';
       clearInterval(this.counter);
     }
   }
