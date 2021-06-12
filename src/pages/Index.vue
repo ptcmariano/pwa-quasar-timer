@@ -1,9 +1,9 @@
 <template>
   <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-full.svg"
-    >
+    <a class="flex flex-center h1" href="#/timer">
+      <q-icon size="xl" name="play_circle_outline"></q-icon>
+      <h3>Go to workout!</h3>
+    </a>
   </q-page>
 </template>
 
