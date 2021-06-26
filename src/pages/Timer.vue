@@ -60,9 +60,9 @@ export default {
       this.startTimer();
     },
     startTimer: function() {
-      let plusSeconds = 30;
+      let plusSeconds = 0;
       const self = this;
-      let functionsRun = {
+      let timerRunAction = {
         start: () => {
           plusSeconds = 1;
         },
@@ -73,7 +73,7 @@ export default {
           plusSeconds = self.workout.rest;
         },
       }
-      functionsRun[this.run]();
+      timerRunAction[this.run]();
 
       this.counter = setInterval(() => {
         plusSeconds--;
@@ -92,14 +92,20 @@ export default {
       }
     },
     changeRun: function() {
-      if (this.run == 'work') {
-        this.run = 'rest';
-        this.startTimer(`0:${this.rest}`);
-      } else {
-        this.sets--;
-        this.run = 'work';
-        this.startTimer(`0:${this.work}`);
+      const self = this;
+      const toWork = () => {
+        self.sets--;
+        self.run = 'work';
+      };
+      let changeRunAction = {
+        start: toWork,
+        rest: toWork,
+        work: () => {
+          self.run = 'rest';
+        }
       }
+      changeRunAction[this.run]();
+      this.startTimer();
     },
     reset: function() {
       this.sets = 6;
