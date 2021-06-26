@@ -6,14 +6,14 @@
         <q-toolbar class="bg-blue text-white shadow-2 rounded-borders flex-center">
           <div class="text-h6">Ready?</div>
         </q-toolbar>
-        <CardNumberAndTitle title="Sets" :number="sets" />
-        <CardNumberAndTitle title="Work" :number="work" />
-        <CardNumberAndTitle title="Rest" :number="rest" />
+        <CardNumberAndTitle title="Sets" :numberActual="sets" :numberTotal="workout.sets" />
+        <CardNumberAndTitle title="Work" :numberActual="work" :numberTotal="workout.work" />
+        <CardNumberAndTitle title="Rest" :numberActual="rest" :numberTotal="workout.rest" />
       </div>
 
-      <q-card class="my-card">
+      <q-card :class="`my-card ${run}`">
         <q-card-section class="flex justify-between">
-          <div class="text-h3">Run {{run}} {{timer}}</div>
+          <div class="text-h3">Run {{run}}</div>
         </q-card-section>
       </q-card>
 
@@ -43,43 +43,46 @@ export default {
   data: () => {
     return {
       sets: 6,
-      timer:'0:05',
-      work: 20,
-      rest: 10,
+      work: 30,
+      rest: 30,
       run: 'start',
+      workout: {
+        sets: 6,
+        work: 30,
+        rest: 30,
+      },
       counter: {}
     }
   },
   methods: {
     countdown: function() {
       clearInterval(this.counter);
-      this.startTimer(this.timer);
+      this.startTimer();
     },
-    startTimer: function(timerCount) {
-      let arrTimer = timerCount.split(':');
-      let timeTo = new Date();
-      const plusMinutes = parseInt(arrTimer[0]);
-      const plusSeconds = parseInt(arrTimer[1]);
-      timeTo.setMinutes(timeTo.getMinutes() + plusMinutes);
-      timeTo.setSeconds(timeTo.getSeconds() + plusSeconds);
+    startTimer: function() {
+      let plusSeconds = 30;
+      const self = this;
+      let functionsRun = {
+        start: () => {
+          plusSeconds = 1;
+        },
+        work: () => {
+          plusSeconds = self.workout.work;
+        },
+        rest: () => {
+          plusSeconds = self.workout.rest;
+        },
+      }
+      functionsRun[this.run]();
 
       this.counter = setInterval(() => {
-        let now = new Date();
-        let distance = timeTo.getTime() - now.getTime();
-        const {minutes, seconds} = this.calcDistanceTime(distance);
-        this.timer = `${minutes}:${seconds}`;
-        this.setStateOverAll(minutes+seconds);
-      }, 992);
-    },
-    calcDistanceTime: function(distance) {
-      return {
-        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((distance % (1000 * 60)) / 1000)
-      }
+        plusSeconds--;
+        this[this.run] = plusSeconds;
+        this.setStateOverAll(plusSeconds);
+      }, 1000);
     },
     setStateOverAll: function(lastTime) {
       if (lastTime <= 0) {
-        this.timer = '0:00';
         clearInterval(this.counter);
         if (this.sets >= 1) {
           this.changeRun();
@@ -100,8 +103,9 @@ export default {
     },
     reset: function() {
       this.sets = 6;
+      this.work = this.workout.work;
+      this.rest = this.workout.rest;
       this.run = 'start';
-      this.timer = '0:05';
       clearInterval(this.counter);
     }
   }
@@ -114,4 +118,16 @@ export default {
   min-width: 850px;
 }
 */
+.start {
+  background-color: aquamarine;
+}
+.work {
+  background-color: lightsalmon;
+}
+.rest {
+  background-color: lightblue;
+}
+.finished {
+  background-color: olivedrab;
+}
 </style>
