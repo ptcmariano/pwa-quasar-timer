@@ -42,14 +42,14 @@ export default {
   name: 'Timer',
   data: () => {
     return {
-      sets: 6,
-      work: 30,
-      rest: 30,
+      sets: 2,
+      work: 3,
+      rest: 3,
       run: 'start',
       workout: {
         sets: 6,
-        work: 30,
-        rest: 30,
+        work: 3,
+        rest: 3,
       },
       counter: {}
     }
@@ -84,11 +84,8 @@ export default {
     setStateOverAll: function(lastTime) {
       if (lastTime <= 0) {
         clearInterval(this.counter);
-        if (this.sets >= 1) {
-          this.changeRun();
-        } else {
-          this.run = 'finished';
-        }
+        this.run = this.sets <= 0 ? 'finished' : this.run;
+        this.changeRun();
       }
     },
     changeRun: function() {
@@ -96,16 +93,20 @@ export default {
       const toWork = () => {
         self.sets--;
         self.run = 'work';
+        self.startTimer();
       };
       let changeRunAction = {
         start: toWork,
         rest: toWork,
+        finished: () => { 
+          self.run = 'finished';
+        },
         work: () => {
           self.run = 'rest';
+          self.startTimer();
         }
       }
       changeRunAction[this.run]();
-      this.startTimer();
     },
     reset: function() {
       this.sets = 6;
