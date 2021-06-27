@@ -42,14 +42,15 @@ export default {
   name: 'Timer',
   data: () => {
     return {
-      sets: 2,
-      work: 3,
-      rest: 3,
+      audio: new Audio(),
+      sets: 6,
+      work: 30,
+      rest: 30,
       run: 'start',
       workout: {
         sets: 6,
-        work: 3,
-        rest: 3,
+        work: 30,
+        rest: 30,
       },
       counter: {}
     }
@@ -107,9 +108,14 @@ export default {
         }
       }
       changeRunAction[this.run]();
+      self.sendSound(self.run);
+    },
+    sendSound: function(srcSound) {
+      this.audio.src = "./sounds/" + srcSound + ".ogg";
+		  this.audio.play();
     },
     reset: function() {
-      this.sets = 6;
+      this.sets = this.workout.sets;
       this.work = this.workout.work;
       this.rest = this.workout.rest;
       this.run = 'start';
@@ -120,11 +126,6 @@ export default {
 </script>
 
 <style>
-/*
-.panel {
-  min-width: 850px;
-}
-*/
 .start {
   background-color: aquamarine;
 }
