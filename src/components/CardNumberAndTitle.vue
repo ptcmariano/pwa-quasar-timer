@@ -1,7 +1,7 @@
 <template>
   <q-card class="my-card text-center">
     <q-card-section tag="h3" class="text-bold q-my-none">
-      {{ number }}
+      {{ numberActual }} / {{ numberTotal }}
     </q-card-section>
 
     <q-card-section tag="p" class="q-pa-none">
@@ -18,7 +18,11 @@ export default {
       type: String,
       required: true
     },
-    number: {
+    numberActual: {
+      type: Number,
+      required: true
+    },
+    numberTotal: {
       type: Number,
       required: true
     }
