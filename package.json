@@ -1,13 +1,13 @@
 {
   "name": "pwa-quasar-timer",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "timer for workout",
   "productName": "quasar timer",
   "author": "Paulo Tiago <paulotiagocm@hotmail.com>",
   "private": true,
   "scripts": {
     "qrun": "quasar dev",
-    "qbuild": "quasar build -m pwa",
+    "qbuild": "quasar build -m pwa && mv -u dist/pwa/ ./",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
