@@ -1,6 +1,13 @@
-# quasar timer (pwa-quasar-timer)
+# teste beedoo frontend
 
-timer for workout
+> timer for workout
+
+### Mande o pull request com as seguintes alterações
+
+ * 1- Para cada CardNumberAndTitle (work, rest e sets) coloque mais um numero com o valor total, além do valor de andamento
+ * 2- coloque os sons que estão na pasta public/sounds/(work|rest|finished).ogg a cada começo da fase
+ * 3- criar pull request
+
 
 ## Install the dependencies
 ```bash
@@ -11,16 +18,3 @@ yarn
 ```bash
 quasar dev
 ```
-
-### Lint the files
-```bash
-yarn run lint
-```
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v1.quasar.dev/quasar-cli/quasar-conf-js).
