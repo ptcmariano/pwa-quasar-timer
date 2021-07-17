@@ -43,16 +43,24 @@ export default {
   data: () => {
     return {
       audio: new Audio(),
-      sets: 6,
-      work: 30,
-      rest: 30,
+      sets: 0,
+      work: 0,
+      rest: 0,
       run: 'start',
-      workout: {
+      counter: {}
+    }
+  },
+  computed: {
+    workout() {
+      let baseWorkout = {
         sets: 6,
         work: 30,
         rest: 30,
-      },
-      counter: {}
+      };
+      baseWorkout.sets = this.$route.query.sets ? parseInt(this.$route.query.sets) : baseWorkout.sets;
+      baseWorkout.work = this.$route.query.work ? parseInt(this.$route.query.work) : baseWorkout.work;
+      baseWorkout.rest = this.$route.query.rest ? parseInt(this.$route.query.rest) : baseWorkout.rest;
+      return baseWorkout;
     }
   },
   methods: {
@@ -66,6 +74,9 @@ export default {
       let timerRunAction = {
         start: () => {
           plusSeconds = 1;
+          self.sets = self.workout.sets;
+          self.work = self.workout.work;
+          self.rest = self.workout.rest;
         },
         work: () => {
           plusSeconds = self.workout.work;

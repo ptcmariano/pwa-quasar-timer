@@ -54,19 +54,19 @@ const linksData = [
     title: 'Home',
     caption: 'home',
     icon: 'home',
-    link: '/#/'
+    link: '#/'
   },
   {
     title: 'Timer',
     caption: 'timer',
     icon: 'rss_feed',
-    link: '/#/timer'
+    link: '#/timer'
   },
   {
     title: 'About',
     caption: 'See this',
     icon: 'favorite',
-    link: '/#/about'
+    link: '#/about'
   }
 ];
 
